@@ -52,7 +52,7 @@ def fold(line, limit=75):
     out.append(cur)
     return "\r\n".join(out)
  
- def ics_unescape(s):
+def ics_unescape(s):
     return re.sub(r"\\([nN,;\\])", lambda m: "\n" if m.group(1) in "nN" else m.group(1), s)
  
  
@@ -97,7 +97,7 @@ def local_midnight(dt, tz):
     l = dt.astimezone(tz)
     return l.time().replace(microsecond=0) == datetime.min.time()
  
- def fix_dates(lines, tz):
+def fix_dates(lines, tz):
     """Rewrite DTSTART/DTEND if the event is really all-day. Returns (lines, changed)."""
     idx = {}
     for i, ln in enumerate(lines):
