@@ -168,30 +168,30 @@ def process(text):
                     summary = ics_unescape(l.partition(":")[2])
                 new.append(l)
             events[route(summary, desc)] += [["BEGIN:VEVENT"] + new + ["END:VEVENT"]]
-          in_ev = False
+            in_ev = False
             continue
-        if in_ev:
-            ev.append(ln)
-        elif ln:
-            (footer if seen_ev else header).append(ln)
-    print(f"all-day fixed: {n_fixed}", file=sys.stderr)
- 
-    files = {}
-    for key, label in FEEDS.items():
-        h = []
-        for l in header:
-            if l.startswith("X-WR-CALNAME:"):
-                l = f"X-WR-CALNAME:{l.split(':', 1)[1]} - {label}"
-            h.append(l)
-        lines = h + [l for e in events[key] for l in e] + footer
-        files[key] = "\r\n".join(fold(l) for l in lines) + "\r\n"
-        print(f"{key}: {len(events[key])} events", file=sys.stderr)
-    return files
- 
- 
-if __name__ == "__main__":
-    os.makedirs("docs", exist_ok=True)
-    for key, content in process(load()).items():
-        with open(f"docs/{key}.ics", "w", encoding="utf-8", newline="") as f:
-            f.write(content)
- 
+         if in_ev:
+             ev.append(ln)
+         elif ln:
+             (footer if seen_ev else header).append(ln)
+     print(f"all-day fixed: {n_fixed}", file=sys.stderr)
+  
+     files = {}
+     for key, label in FEEDS.items():
+         h = []
+         for l in header:
+             if l.startswith("X-WR-CALNAME:"):
+                 l = f"X-WR-CALNAME:{l.split(':', 1)[1]} - {label}"
+             h.append(l)
+         lines = h + [l for e in events[key] for l in e] + footer
+         files[key] = "\r\n".join(fold(l) for l in lines) + "\r\n"
+         print(f"{key}: {len(events[key])} events", file=sys.stderr)
+     return files
+  
+  
+ if __name__ == "__main__":
+     os.makedirs("docs", exist_ok=True)
+     for key, content in process(load()).items():
+         with open(f"docs/{key}.ics", "w", encoding="utf-8", newline="") as f:
+             f.write(content)
+  
