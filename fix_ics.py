@@ -163,7 +163,6 @@ def process(text):
                 elif l.startswith("DESCRIPTION"):
                     head_, _, val = l.partition(":")
                     desc = clean_desc(ics_unescape(val))
-                    l = f"{head_}:{ics_escape(desc)}"
                 elif l.startswith("SUMMARY"):
                     summary = ics_unescape(l.partition(":")[2])
                 new.append(l)
